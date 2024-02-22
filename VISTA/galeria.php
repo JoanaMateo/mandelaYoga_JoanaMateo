@@ -32,17 +32,27 @@
 <nav aria-label="Page navigation">
   <ul class="pagination pg-dark justify-content-center pb-5 pt-5 mb-0">
     <li class="page-item">
-      <a id="pagAnterior" class="page-link" href="" aria-label="Previous">
+      <button id="pagPrimera" class="page-link" type="button" aria-label="Pagina primera">
+        <span aria-hidden="true">Primera Pagina</span>
+      </button>
+    </li>
+    <li class="page-item">
+      <button id="pagAnterior" class="page-link" type="button" aria-label="Previous">
         <span aria-hidden="true">&laquo;</span>
-      </a>
+      </button>
     </li>
     <div id="divPaginacion" class="d-flex justify-content-center">
 
     </div> 
     <li class="page-item">
-      <a id="pagNext" class="page-link" href="" aria-label="Next">
+      <button id="pagNext" class="page-link" type="button" aria-label="Next">
         <span aria-hidden="true">&raquo;</span>
-      </a>
+      </button>
+    </li>
+    <li class="page-item">
+      <button id="pagUltima" class="page-link" type="button" aria-label="Pagina ultima">
+        <span aria-hidden="true">Ultima Pagina</span>
+      </button>
     </li>
   </ul>
   <p id="textoInf2" class="d-flex justify-content-center"></p>

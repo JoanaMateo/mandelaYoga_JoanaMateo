@@ -14,6 +14,7 @@ class ModeloProducto extends conexionBBDD{
         
         $arrayProductos = []; //Nos creamos nuestro array
         $results = $statement->get_result()->fetch_all(MYSQLI_ASSOC); //En una variable almaceno todos los registros de la tabla.
+        
         //Recorremos el array:
         
         foreach ($results as $row){
@@ -50,31 +51,8 @@ class ModeloProducto extends conexionBBDD{
         $statement->execute();
         $results = $statement->get_result()->fetch_all(MYSQLI_ASSOC); //En una variable almaceno todos los registros de la tabla.
         
-       $arrayDatosConsulta["datosConsultaProductos"]= $results;
-       /*
-        foreach ($results as $row) {
-            $objetoProducto = new Producto();
-            $objetoProducto->setIdProducto($row['idProducto']);
-            $objetoProducto->setNombreProducto($row['nombre']);
-            $objetoProducto->setPrecioProducto($row['categoria']);
-            $objetoProducto->setNombreProducto($row['precio']);
-            $objetoProducto->setImgUrl($row['imgUrl']);
-            $objetoProducto->setDescripcionProducto($row['descripcion']);
-            
-            $arrayDatosConsulta["datosConsultaProductos"]= $objetoProducto;
-        }*/
-        /*
-        foreach ($results  as $row) {
-            $arrayDatosConsulta["datosConsultaProductos"]=[
-                "idProducto" => $row['idProducto'],
-                "nombre" => $row['nombre'],
-                "categoria" => $row['categoria'],
-                "precio" => $row['precio'],
-                "imgUrl" => $row['imgUrl'],
-                "descripcion" => $row['descripcion']
-            ];
-        }*/
-
+        $arrayDatosConsulta["datosConsultaProductos"]= $results;
+       
         $datosPaginacion= $this->paginacion($tabla, $busqueda, $categoria, $pagina, $registros);
         $arrayDatosPaginacion=[
             "paginacion" => [
@@ -124,6 +102,7 @@ class ModeloProducto extends conexionBBDD{
         $statement = $this->conn->prepare($query); //variable donde almacenaremos el objeto de tipo PDOStatement
         $statement->execute();
         $results = $statement->get_result()->fetch_assoc();
+        
         //Cerramos conexion
         $statement->close();
 

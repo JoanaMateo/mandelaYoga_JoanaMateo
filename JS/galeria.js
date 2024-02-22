@@ -1,33 +1,24 @@
+ 
+ //ELEMENTOS HTML
 const divRowProductoGaleria = document.getElementById('divRowProductoGaleria');
-console.log(divRowProductoGaleria)
-const btnPagAnterior = document.getElementById("pagAnterior");
-console.log(btnPagAnterior)
-const btnPagNext = document.getElementById("pagNext");
-console.log(btnPagNext)
 const textoInf1= document.getElementById('textoInf1');
-console.log(textoInf1)
 const textoInf2 = document.getElementById('textoInf2');
-console.log(textoInf2)
 const textoInf3= document.getElementById('textoInf3');
-console.log(textoInf3)
 
 const divPaginaItem=document.getElementById('divPaginacion');
-console.log(divPaginaItem)
-//Pendiente poner el liPaginacion para crear el evento de pulsar una página y cargarla. TERMINAR!!!
-const liPaginacion = "";
-console.log(liPaginacion);
-//const divMigasPan = document.querySelector('ol');
+const divMigasPan = document.querySelector('ol');
 
-let textBusqueda;
+//VARIABLES GLOBALES
+let textBusqueda="null";
 let tipoProduct;
 let page;
 let totalpages;
 let totalConsul;
 let registro;
-//let limite= 3;
+        
+document.addEventListener('DOMContentLoaded', () => {
+       if(divRowProductoGaleria!=null){
 
-document.addEventListener('DOMContentLoaded', ()=>{
-    if(divRowProductoGaleria != null){ 
         ajaxAllProductos();
 
         /*GALERIA ZONA HOME*/
@@ -41,15 +32,14 @@ document.addEventListener('DOMContentLoaded', ()=>{
        
         
         /*PAGINACIÓN*/
+        const btnPagPrimera = document.getElementById("pagPrimera");
+        const btnPagUltima = document.getElementById("pagUltima");
+        const btnPagAnterior = document.getElementById("pagAnterior");
+        const btnPagNext = document.getElementById("pagNext");
         btnPagAnterior.addEventListener('click', pagAnterior);
         btnPagNext.addEventListener('click', pagNext);
-       
-        //No funciona!!!! PENDIENTE TERMINAR!!!!
-        for(let i=0; i<liPaginacion.length; i++){
-            console.log(liPaginacion[i])
-
-            liPaginacion[i].addEventListener('click', selectPagina);
-        }
+        btnPagPrimera.addEventListener('click', pagPrimera);
+        btnPagUltima.addEventListener('click', pagUltima);       
         
         /*BUSCADOR*/
         const buscador = document.querySelector("input[type='search']");
@@ -61,6 +51,34 @@ document.addEventListener('DOMContentLoaded', ()=>{
             selcCategoria.addEventListener('click', selecionaTipoCategoria);
         })
     }
+
+        //FUNCIONES
+    function pagPrimera(event){
+        page= 1;
+        textoInf1.innerHTML ="";
+        textoInf2.innerHTML= "";
+        textoInf3.innerHTML ="";
+        divRowProductoGaleria.innerHTML = "";
+        divPaginaItem.innerHTML="";
+        if(page=1){
+            textoInf2.innerHTML= "Se encuentra en la primera página."
+            //btnPagAnterior.ariaDisabled = true;
+        }
+        llamadaApi(page, tipoProduct, textBusqueda);
+    }
+    function pagUltima(event){
+        page=totalpages;
+        textoInf1.innerHTML ="";
+        textoInf2.innerHTML= "";
+        textoInf3.innerHTML ="";
+        divRowProductoGaleria.innerHTML = "";
+        divPaginaItem.innerHTML="";
+        if(page=totalpages){
+            textoInf2.innerHTML= "Ultima pagina. No hay mas registro."
+            //btnPagNext.disabled = true;    //El botón se desactiva
+        }
+        llamadaApi(page, tipoProduct, textBusqueda);
+    }
     function pagNext(event){ //Buscar problema. No me carga. Algo mal.
         page++;
         
@@ -70,22 +88,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
         divRowProductoGaleria.innerHTML = "";
         divPaginaItem.innerHTML="";
        
-        if(page>=totalpages-2){
-            limite=totalpages-2;
-        }
         if(page>=totalpages){
             page = totalpages;
             textoInf2.innerHTML= "Ultima pagina. No hay mas registro."
             //btnPagNext.disabled = true;    //El botón se desactiva
         }
-        //limite++;
-        // console.log("Datos limite botonNext: "+limite);
-        console.log("Datos pagina botonNext: "+page+typeof(page));
-        console.log("Datos categoria botonNext: "+tipoProduct+typeof(tipoProduct));
-        console.log("Datos textoBusqueda botonNext: "+textBusqueda+typeof(textBusqueda));
-
+        
         llamadaApi(page, tipoProduct, textBusqueda);
-
     }
     function pagAnterior (){
         page--;
@@ -95,40 +104,34 @@ document.addEventListener('DOMContentLoaded', ()=>{
         textoInf3.innerHTML ="";
         divRowProductoGaleria.innerHTML = "";
         divPaginaItem.innerHTML="";
+
         if(page<=1){
             page=1;
             textoInf2.innerHTML= "Se encuentra en la primera página."
             //btnPagAnterior.ariaDisabled = true;
         }
-        if(page>=totalpages-2){
-            limite=totalpages-2;
-        }
-        //limite--;
-        //console.log("Datos limite botonNext: "+limite);
-        console.log("Datos pagina botonNext: "+page);
-        console.log("Datos categoria botonNext: "+tipoProduct+typeof(tipoProduct));
-        console.log("Datos textoBusqueda botonNext: "+textBusqueda+typeof(textBusqueda));
-
+        
         llamadaApi(page, tipoProduct, textBusqueda);
     }
-    
-    function selectPagina(event){ //PENDIENTE TERMINAR/ Probar.!!!!!!!!!
-       page = event.target.value //cogemos el valor del li de la pagina.
-       //LLamamos Ajax
-       
-       llamadaApi(page, tipoProduct, textBusqueda);
-    }
-   
-    function ajaxAllProductos(){
-        page = 1;
-        textBusqueda = 'null';
-        tipoProduct = 'null';
+
+    function selectPagina(event){ 
+        pageEvento = event.target.textContent 
         textoInf1.innerHTML ="";
         textoInf2.innerHTML= "";
         textoInf3.innerHTML ="";
         divRowProductoGaleria.innerHTML = "";
-        
-        llamadaApi(page, tipoProduct, textBusqueda);
+        divPaginaItem.innerHTML="";
+
+        //LLamamos Ajax
+        llamadaApi(pageEvento, tipoProduct, textBusqueda);
+    }
+
+    function ajaxAllProductos(){
+        pageEvento = 1;
+        textBusqueda = "null";
+        tipoProduct = "null";
+
+        llamadaApi(pageEvento, tipoProduct, textBusqueda);        
     }
 
     function selecionaTipoCategoria(event){
@@ -150,18 +153,17 @@ document.addEventListener('DOMContentLoaded', ()=>{
             textoInf3.innerHTML ="";
             divRowProductoGaleria.innerHTML = "";
             divPaginaItem.innerHTML="";
-
+            divMigasPan.lastChild.remove();
             llamadaApi(page, tipoProduct, textBusqueda);
             break;
         } 
     }
+        //FUNCION QUE HACE PETICIÓN AJAX
     function llamadaApi(pag, categ, textoBusq){
         if(categ==null){
             categ="null";
         }
-        console.log("Datos pagina al hacer la llamada Api: "+pag+typeof(pag));
-        console.log("Datos categoria al hacer la llamada Api: "+categ+typeof(categ));
-        console.log("Datos textoBusqueda al hacer la llamada Api: "+textoBusq+typeof(textoBusq));
+        
         const headers = new Headers();
         headers.append('pragma', 'no-cache');
         headers.append('cache-control', 'no-cache');
@@ -174,9 +176,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
             //.then(datos=>console.log(datos))
             .then(datos => cargarDatosProductos(datos))
             .catch((error)=>{
-                console.log(error.message);
+                console.log(error);
             })
     }
+        //FUNCION QUE CARGA LOS DATOS DE LA PETICIÓN AJAX
     function cargarDatosProductos(datos){
         datos.datosConsultaProductos.forEach(elementos => {
             const card = crearCard(elementos);
@@ -184,26 +187,40 @@ document.addEventListener('DOMContentLoaded', ()=>{
         })
 
         tipoProduct = datos['paginacion'].categoria;
-        console.log("Datos recibidos del api categoria"+tipoProduct+ typeof(tipoProduct))
         page = datos['paginacion'].pagina;
-        console.log("Datos recibidos del api pagina"+page)
         totalpages= datos['paginacion'].paginas;
-        console.log("Datos recibidos del api totalPaginas"+totalpages)
         totalConsul = datos['paginacion'].total;
-        console.log("Datos recibidos del api totalConsulta"+totalConsul)
         registro= datos['paginacion'].limite;
-        console.log("Datos recibidos del api registro"+registro)
         
-        //for para dibujar solo 3 paginas.
-        let limite= page+2
+        //For para dibujar solo 3 paginas.
+        limite= page+2
+        if(page>=totalpages-2){
+            limite=totalpages;
+        }
         for(let i=page; i<=limite; i++){
             const paginacion = crearPaginacion(i);
             divPaginaItem.appendChild(paginacion);
-            }
+        }
+        //Elementos de la paginacion
+        const arrayNumPaginacion = divPaginaItem.getElementsByClassName('numPaginacion');
+        const liPaginacion = divPaginaItem.getElementsByClassName('pagina page-item');
         
+        //La pagina que se visualiza está activa
+        liPaginacion[0].className="pagina page-item active";
+       
+        for(let i=0; i< arrayNumPaginacion.length; i++){
+        arrayNumPaginacion[i].addEventListener('click', selectPagina);
+        }
+        //Actualizamos Migas de Pan
+        let categMigas =  selectMigasPan(tipoProduct);
+        divMigasPan.append(crearMigasPan(categMigas));
+
+        //Titulos con información
         textoInf1.innerHTML =" Total registros "+ totalConsul;
         textoInf3.innerHTML= "Total paginas "+ totalpages;
     }
+
+        //FUNCIONES QUE PINTAN FORMATO HTML PRODUCTOS Y PAGINACION
     function crearCard(objeto){
         const divCol = document.createElement('div');
         divCol.className = "col-4 mb-3";
@@ -242,23 +259,47 @@ document.addEventListener('DOMContentLoaded', ()=>{
         const liPag = document.createElement('li');
         liPag.className= "pagina page-item";
         
-        const aPag = document.createElement('a');
-        aPag.className= "page-link";
-        //aPag.href="#";
-        aPag.textContent = pagina;
+        const buttonPag = document.createElement('button');
+        buttonPag.className= "page-link numPaginacion";
+        buttonPag.textContent = pagina;
 
-        liPag.appendChild(aPag);
+        liPag.appendChild(buttonPag);
 
         return liPag;
     }
-    function crearMigasPan(){
+    function crearMigasPan(cat){
         const liMigasPan = document.createElement('li');
         liMigasPan.className= "breadcrumb-item";
         const aMigasPan = document.createElement('a');
         aMigasPan.href="";
 
         liMigasPan.appendChild(aMigasPan);
-        liMigasPan.innerText = categoria;
+        liMigasPan.innerText = cat;
         return liMigasPan;
     }
-}); 
+    function selectMigasPan(cat){
+        let nomMiga;
+        if(cat== null){
+            cat="null"
+        }
+        switch(cat){
+            case "null":
+            case "todos":
+                nomMiga= "Todos los productos"
+            break;    
+            case "talleres":
+                nomMiga= "Talleres";
+            break;
+            case "producYoga":
+                nomMiga= "Productos de Yoga";
+            break;
+            case "esterillas":
+                nomMiga= "Esterillas";
+            break;
+            case "inputBuscador":
+                nomMiga="Buscador"
+            break;
+        }
+        return nomMiga;
+    }
+});

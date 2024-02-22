@@ -6,12 +6,9 @@ error_reporting(E_ALL);
     require_once ('/Applications/MAMP/htdocs/mandelaYoga_JoanaMateo/CONTROL/controladores/control.php');
 
     if(isset($_GET['pagina'], $_GET['categoria'], $_GET['buscador'])){
-        $pagina = intval($_GET['pagina']);
-        //var_dump($pagina);
+        $pagina = (int)$_GET['pagina'];
         $categoria = $_GET['categoria'];
-        //var_dump($categoria);
         $busqueda = $_GET['buscador'];
-        //var_dump($busqueda);
      }
      
     if($_GET["nombPagina"] == "home"){
@@ -29,9 +26,9 @@ error_reporting(E_ALL);
         echo json_encode( $productosAPi,JSON_PRETTY_PRINT); 
         
     }elseif($_GET["nombPagina"] == "galeria"){
-
         switch ($categoria) {
             case "null": 
+
                 $tabla = 'productos';
                 $categoria= null;
                 if($busqueda == "null"){
@@ -48,6 +45,7 @@ error_reporting(E_ALL);
             break;
         
             case "todos":
+
                 $tabla = 'productos';
                 $categoria= null;
                 if($busqueda == "null"){
@@ -64,6 +62,7 @@ error_reporting(E_ALL);
             break;
         
             case "talleres":
+
                 $tabla = 'productos';
                 $categoria= "talleres";
                 if($busqueda == "null"){
@@ -79,6 +78,7 @@ error_reporting(E_ALL);
                 echo json_encode( $productosAPi,JSON_PRETTY_PRINT);
             break;
             case "producYoga":
+
                 $tabla = 'productos';
                 $categoria= "producYoga";
                  if($busqueda == "null"){
