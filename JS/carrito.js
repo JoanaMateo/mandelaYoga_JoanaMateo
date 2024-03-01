@@ -21,9 +21,6 @@ function iniciar(){
 btnVaciarCarrito.addEventListener('click', vaciarCarrito);
 btnEnviarCarrito.addEventListener('click', finalizarCompra);
 
-    
-
-
 
 function comprobar(event){
     var elemento=event.target;
@@ -199,6 +196,7 @@ if(Number(carritoCalculoTotal.textContent) === 0 || carritoCalculoTotal.textCont
     smsFinalizarCompra.innerText= "El carrito está vacio."
 }else{
     vaciarCarrito();
+    
     smsFinalizarCompra.innerText= "Su compra se ha enviado correctamente. Gracias"
 }
     

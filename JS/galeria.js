@@ -15,11 +15,18 @@ let page;
 let totalpages;
 let totalConsul;
 let registro;
-        
+
+//Esta función coge solo el valor de Get en la url
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+    results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
 document.addEventListener('DOMContentLoaded', () => {
        if(divRowProductoGaleria!=null){
-
-        ajaxAllProductos();
+        let valorGet = getParameterByName('categoria')
+        ajaxAllProductos(valorGet);
 
         /*GALERIA ZONA HOME*/
         const homeEnalceGaleria = document.querySelectorAll('homeEnalceTaller');
@@ -56,59 +63,53 @@ document.addEventListener('DOMContentLoaded', () => {
     function pagPrimera(event){
         page= 1;
         textoInf1.innerHTML ="";
-        textoInf2.innerHTML= "";
+        textoInf2.innerHTML= "Se encuentra en la primera página."
         textoInf3.innerHTML ="";
         divRowProductoGaleria.innerHTML = "";
+        divMigasPan.lastChild.remove();
         divPaginaItem.innerHTML="";
-        if(page=1){
-            textoInf2.innerHTML= "Se encuentra en la primera página."
-            //btnPagAnterior.ariaDisabled = true;
-        }
+        
         llamadaApi(page, tipoProduct, textBusqueda);
     }
     function pagUltima(event){
         page=totalpages;
         textoInf1.innerHTML ="";
-        textoInf2.innerHTML= "";
+        textoInf2.innerHTML= "Ultima pagina. No hay mas registro."
         textoInf3.innerHTML ="";
         divRowProductoGaleria.innerHTML = "";
+        divMigasPan.lastChild.remove();
         divPaginaItem.innerHTML="";
-        if(page=totalpages){
-            textoInf2.innerHTML= "Ultima pagina. No hay mas registro."
-            //btnPagNext.disabled = true;    //El botón se desactiva
-        }
+        
         llamadaApi(page, tipoProduct, textBusqueda);
     }
     function pagNext(event){ //Buscar problema. No me carga. Algo mal.
         page++;
-        
         textoInf1.innerHTML ="";
         textoInf2.innerHTML= "";
         textoInf3.innerHTML ="";
         divRowProductoGaleria.innerHTML = "";
+        divMigasPan.lastChild.remove();
         divPaginaItem.innerHTML="";
-       
-        if(page>=totalpages){
+
+       if(page>=totalpages){
             page = totalpages;
             textoInf2.innerHTML= "Ultima pagina. No hay mas registro."
-            //btnPagNext.disabled = true;    //El botón se desactiva
         }
         
         llamadaApi(page, tipoProduct, textBusqueda);
     }
     function pagAnterior (){
         page--;
-
         textoInf1.innerHTML ="";
         textoInf2.innerHTML= "";
         textoInf3.innerHTML ="";
         divRowProductoGaleria.innerHTML = "";
+        divMigasPan.lastChild.remove();
         divPaginaItem.innerHTML="";
 
         if(page<=1){
             page=1;
             textoInf2.innerHTML= "Se encuentra en la primera página."
-            //btnPagAnterior.ariaDisabled = true;
         }
         
         llamadaApi(page, tipoProduct, textBusqueda);
@@ -116,20 +117,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function selectPagina(event){ 
         pageEvento = event.target.textContent 
-        textoInf1.innerHTML ="";
-        textoInf2.innerHTML= "";
-        textoInf3.innerHTML ="";
-        divRowProductoGaleria.innerHTML = "";
-        divPaginaItem.innerHTML="";
+        
+        
+        if(pageEvento==0){
+            textoInf1.innerHTML =" No hay registros en tu busqueda";
+        }else{
+            textoInf1.innerHTML ="";
+            textoInf2.innerHTML= "";
+            textoInf3.innerHTML ="";
+            divRowProductoGaleria.innerHTML = "";
+            divMigasPan.lastChild.remove();
 
-        //LLamamos Ajax
-        llamadaApi(pageEvento, tipoProduct, textBusqueda);
+            divPaginaItem.innerHTML="";
+            if(pageEvento<=1){
+                page=1;
+                textoInf2.innerHTML= "Se encuentra en la primera página."
+            }else if(pageEvento>=totalpages){
+                page = totalpages;
+                textoInf2.innerHTML= "Ultima pagina. No hay mas registro."
+            }
+
+            //LLamamos Ajax
+            llamadaApi(pageEvento, tipoProduct, textBusqueda);
+        }    
     }
 
-    function ajaxAllProductos(){
+    function ajaxAllProductos(valorGet){
+        
         pageEvento = 1;
-        textBusqueda = "null";
-        tipoProduct = "null";
+        if(valorGet=="talleres"){
+            tipoProduct="talleres"
+        }else{
+            tipoProduct = "null";
+        }
+        textBusqueda = "null";        
 
         llamadaApi(pageEvento, tipoProduct, textBusqueda);        
     }
@@ -193,21 +214,73 @@ document.addEventListener('DOMContentLoaded', () => {
         registro= datos['paginacion'].limite;
         
         //For para dibujar solo 3 paginas.
-        limite= page+2
-        if(page>=totalpages-2){
-            limite=totalpages;
-        }
-        for(let i=page; i<=limite; i++){
-            const paginacion = crearPaginacion(i);
+        if(totalConsul==0){
+            const paginacion = crearPaginacion(0);
             divPaginaItem.appendChild(paginacion);
+            textoInf1.innerHTML =" No hay registros en tu busqueda";
+        }else{
+            if(totalpages>=registro){
+                switch(page){
+                    case 1:
+                        for(let i=page; i<=registro; i++){
+                            const paginacion = crearPaginacion(i);
+                            divPaginaItem.appendChild(paginacion);
+                        }
+                        break;
+                        case (totalpages-1):
+                            for(let i=page-1; i<=totalpages; i++){
+                                const paginacion = crearPaginacion(i);
+                                divPaginaItem.appendChild(paginacion);
+                            }
+                        break;
+                        case totalpages:
+                            for(let i=page-2; i<=totalpages; i++){
+                                const paginacion = crearPaginacion(i);
+                                divPaginaItem.appendChild(paginacion);
+                            }
+                        break;
+                        default:
+                            for(let i=page-1; i<=(page+1); i++){
+                                const paginacion = crearPaginacion(i);
+                                divPaginaItem.appendChild(paginacion);
+                            }
+                        break;
+                   }
+            }else{
+                switch(page){
+                    case 1:
+                    default:
+                        for(let i=page; i<=totalpages; i++){
+                            const paginacion = crearPaginacion(i);
+                            divPaginaItem.appendChild(paginacion);
+                        }
+                        break;
+                        case (totalpages-1):
+                        case totalpages:
+                            for(let i=page-1; i<=totalpages; i++){
+                                const paginacion = crearPaginacion(i);
+                                divPaginaItem.appendChild(paginacion);
+                            }
+                        break;
+                        
+                   }
+            }
+            
+            textoInf1.innerHTML =" Total registros "+ totalConsul;
         }
+       
         //Elementos de la paginacion
         const arrayNumPaginacion = divPaginaItem.getElementsByClassName('numPaginacion');
         const liPaginacion = divPaginaItem.getElementsByClassName('pagina page-item');
         
         //La pagina que se visualiza está activa
-        liPaginacion[0].className="pagina page-item active";
-       
+            for(let i=0; i<liPaginacion.length; i++){
+                if(page== liPaginacion[i].textContent){
+                    liPaginacion[i].className="pagina page-item active"
+                }
+            }
+        
+        //Seleccionamos num pagina y mostramos productos de esa pagina exacta.
         for(let i=0; i< arrayNumPaginacion.length; i++){
         arrayNumPaginacion[i].addEventListener('click', selectPagina);
         }
@@ -216,7 +289,6 @@ document.addEventListener('DOMContentLoaded', () => {
         divMigasPan.append(crearMigasPan(categMigas));
 
         //Titulos con información
-        textoInf1.innerHTML =" Total registros "+ totalConsul;
         textoInf3.innerHTML= "Total paginas "+ totalpages;
     }
 

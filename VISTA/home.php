@@ -93,19 +93,5 @@
   </div>
 -->
   <!---->
-  <div class="row border">
-    <div class="col">
-          <h2>AQUI IRIA LA GALERIA DE PRODUCTOS POR UN API SPRINT2</h2>
-          <p>Requisitos funcionales</p>
-          <p>- La página debe constar de una galería de productos/servicios destacados obtenidos del API del backend
-          - Debe añadirse un buscador que permita buscar productos/servicios por nombre/descripción
-          - Si hay más productos de los que se pueden mostrar debe añadirse una páginación</p>
-          <p>Requisitos técnicos</p>
-
-          <p>- Se debe utilizar exclusivamente los métodos y objetos del DOM para añadir los eventos y crear los elementos del carrito de la compra.
-          - Los productos/servicios deben guardarse en un array de objetos.
-          - Se debe utilizar Vainilla Javascript, no está permitido ningún framework javascript </p>
-    </div>
-  </div>
 </div>
 
