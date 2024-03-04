@@ -10,9 +10,31 @@ const divZonaProductosEnElCarrito = document.querySelector('.divZonaProductosEnE
 const btnVaciarCarrito = document.querySelector('.btnVaciarCarrito');
 const btnEnviarCarrito = document.querySelector('.btnCarritoEnviar');
 
+//Recuperamos en la variable array los datos del localStorage.
+let arrayProductosCarrito = JSON.parse(window.localStorage.getItem('carritoContent'));
+let productCarrito;
+
 iniciar()
 
 function iniciar(){
+
+    if(arrayProductosCarrito == null){
+        arrayProductosCarrito = []
+    }else{
+        arrayProductosCarrito.forEach(element => {
+            productCarrito = montarFilaCarrito(element);
+            divZonaProductosEnElCarrito.append(productCarrito);    
+            //creamos el evento para eliminar los productos del carrito:
+    productCarrito.querySelector('.buttonDelete').addEventListener('click', borrarProductoCarrito);
+
+    //trabajamos la cantidad de los productos
+    productCarrito.querySelector('.shoppingCartItemQuantity').addEventListener('change',variacionCantidadProductos);
+         
+        });  
+        
+        calculoTotalCarrito(arrayProductosCarrito);
+    
+    }
     
     if(contenedorProductosGaleria != null){
         contenedorProductosGaleria.addEventListener("click",comprobar);
@@ -35,7 +57,7 @@ function comprobar(event){
     }
 }
 
-//Evento cuando seleccioamos un producto
+//Evento cuando seleccionamos un producto
 function addToCartCarritoList(elemento){
 
 //capturamos el div con toda la info del producto
@@ -53,140 +75,119 @@ addProductoAlCarrito(productoTitle, productoImg, productoPrice );
 function addProductoAlCarrito(productoTitle, productoImg, productoPrice){
 smsFinalizarCompra.innerText = '';
 
+//creamos objetoProducto
+let objetoProdutoCarrito = 
+    {
+        cantidad:1,
+        titulo: productoTitle,
+        precio: productoPrice,
+        imagen: productoImg,
+    };
+
+    if(arrayProductosCarrito.length == 0){
+        arrayProductosCarrito.push(objetoProdutoCarrito);
+
+        //Introducimos esta info en la variable de la fila del carrito
+        productCarrito = montarFilaCarrito(objetoProdutoCarrito);
+        divZonaProductosEnElCarrito.append(productCarrito);
+        calculoTotalCarrito(arrayProductosCarrito)
+    }else{
     //Primero evaluamos que el producto esté en el carrito
-   const arrayElementosCarrito = divZonaProductosEnElCarrito.getElementsByClassName('shoppingCartItemTitle')
-
-    //recorremos el array
-   for(let i=0; i< arrayElementosCarrito.length; i++){
-        if(arrayElementosCarrito[i].innerText === productoTitle){
-        let cantidadElementos = arrayElementosCarrito[i].parentElement.parentElement.parentElement.querySelector('.shoppingCartItemQuantity')
-        cantidadElementos.value++;
-        calculoTotalCarrito();
-        return;
+    const arrayElementosCarrito = divZonaProductosEnElCarrito.getElementsByClassName('shoppingCartItemTitle');
+        //recorremos el array
+        for(let i=0; i< arrayProductosCarrito.length; i++){
+            if(arrayProductosCarrito[i].titulo === productoTitle){
+            arrayProductosCarrito[i].cantidad++;
+            calculoTotalCarrito(arrayProductosCarrito);
+            //Pintamos el aumento de la cantidad del elemento que ya está en el array del carrito
+                for(let j=0; j<arrayElementosCarrito.length; j++){
+                    if(arrayElementosCarrito[j].innerText == productoTitle){
+                        let cantidadElementos = arrayElementosCarrito[j].parentElement.parentElement.parentElement.querySelector('.shoppingCartItemQuantity')
+                        cantidadElementos.value++;
+                        return;
+                    }
+                }
+            }
         }
-   }
 
-   
-    //Div del Modal
-    const divFilaproductoCarrito = document.createElement('div');
-    divFilaproductoCarrito.className= "row productoDelCarrito";
-    const divImg = document.createElement('div');
-    divImg.className= "col-6";
-    const divPrecio = document.createElement('div');
-    divPrecio.className= "col-2";
-    const divInputBtn = document.createElement('div');
-    divInputBtn.className= "col-4";
-    const divModalImg= document.createElement('div');
-    divModalImg.className = "modal-cart-item d-flex justify-content-center align-items-center border-bottom pb-2 pt-3 h-100";
-    const divModalPrecio= document.createElement('div');
-    divModalPrecio.className = "modal-cart-item d-flex justify-content-center align-items-center border-bottom pb-2 pt-3 h-100";
-    const divModalInputBtn= document.createElement('div');
-    divModalInputBtn.className = "modal-cart-quantity d-flex justify-content-between aling-items-center border-bottom pb-2 pt-3 h-100";
+            arrayProductosCarrito.push(objetoProdutoCarrito);
+            //Introducimos esta info en la variable de la fila del carrito
+            productCarrito = montarFilaCarrito(objetoProdutoCarrito);
+            divZonaProductosEnElCarrito.append(productCarrito);
 
-    //Imagen
-    const imgProducto = document.createElement('img');
-    imgProducto.src = productoImg; //Le damos el valor del parámetro.
-    imgProducto.style.width = "60px";
-    imgProducto.style.height= "60px";
-    imgProducto.className="modal-cart-img";
+            calculoTotalCarrito(arrayProductosCarrito);
+        
+    }
+    //creamos el evento para eliminar los productos del carrito:
+    productCarrito.querySelector('.buttonDelete').addEventListener('click', borrarProductoCarrito);
 
-    //Titulo
-    const tituloProducto = document.createElement('h6');
-    tituloProducto.className="modal-cart-title shoppingCartItemTitle text-truncate ml-3 mb-0";
-    tituloProducto.textContent = productoTitle; //Le damos el valor del parámetro.
-
-    //Precio
-    const pProducto = document.createElement('p');
-    pProducto.className= "modal-cart-price shoppingCartItemPrice ml-3 mb-0";
-    pProducto.textContent = productoPrice; //Le damos el valor del parámetro.
-
-    //input cantidad producto
-    const inputModalProducto= document.createElement('input');
-    inputModalProducto.className = "form-control shoppingCartItemQuantity";
-    inputModalProducto.type = "number";
-    inputModalProducto.value = "1";
-    //boton eliminar producto
-    const btnModalProducto = document.createElement('button');
-    btnModalProducto.className = "btn btn-danger buttonDelete";
-    btnModalProducto.type= "button";
-    btnModalProducto.textContent= "X";
-
-    //Montamos el modal:
-    divModalImg.append(tituloProducto);
-    divModalImg.prepend(imgProducto);
-    divImg.insertAdjacentElement("afterbegin",divModalImg);
-
-    divModalPrecio.appendChild(pProducto);
-    divPrecio.insertAdjacentElement("afterbegin",divModalPrecio);
-
-    divModalInputBtn.append(btnModalProducto);
-    divModalInputBtn.prepend(inputModalProducto);
-    divInputBtn.appendChild(divModalInputBtn);
-
-    divFilaproductoCarrito.insertAdjacentElement("afterbegin", divImg);
-    divFilaproductoCarrito.append(divPrecio);
-    divFilaproductoCarrito.insertAdjacentElement("beforeend",divInputBtn);
-
-//Introducimos esta info en la variable de la fila del carrito
-divZonaProductosEnElCarrito.append(divFilaproductoCarrito);
-
-//creamos el evento para eliminar los productos del carrito:
-divFilaproductoCarrito.querySelector('.buttonDelete').addEventListener('click', borrarProductoCarrito);
-
-//trabajamos la cantidad de los productos
-divFilaproductoCarrito.querySelector('.shoppingCartItemQuantity').addEventListener('change',variacionCantidadProductos)
-
-calculoTotalCarrito()
+    //trabajamos la cantidad de los productos
+    productCarrito.querySelector('.shoppingCartItemQuantity').addEventListener('change',variacionCantidadProductos);
 
 }
-
+    
 function borrarProductoCarrito(event){
-
     const btnBorrarProductoCarrito = event.target;
+    let newArrayEliminarElemento = [];
+    let textTitulo = (btnBorrarProductoCarrito.closest('.productoDelCarrito').innerText)
+    //Recorremos el array para borrar el elemento seleccionado
+    for(let i=0; i<arrayProductosCarrito.length; i++){
+        if(textTitulo.includes(arrayProductosCarrito[i].titulo) ){
+            newArrayEliminarElemento = arrayProductosCarrito.filter(elemento => elemento.titulo != arrayProductosCarrito[i].titulo )
+        }
+    }
+    //Se borra la imagen del elemento seleccionado
     btnBorrarProductoCarrito.closest('.productoDelCarrito').remove();
+    arrayProductosCarrito = newArrayEliminarElemento;
 
-    calculoTotalCarrito();
+    calculoTotalCarrito(arrayProductosCarrito);
 }
 
 function variacionCantidadProductos(event){
     const inputCantidadProducto = event.target;
+    let textTitulo = (inputCantidadProducto.closest('.productoDelCarrito').innerText)
 
     if (inputCantidadProducto.value <= 0){
         inputCantidadProducto.value = 1 //De esta forma el usuario no podrá bajar de cero.
     }
 
-    calculoTotalCarrito();
+    for(let i=0; i<arrayProductosCarrito.length; i++){
+        if(textTitulo.includes(arrayProductosCarrito[i].titulo) ){
+            arrayProductosCarrito[i].cantidad = Number(inputCantidadProducto.value);
+        }
+    }
 
+    calculoTotalCarrito(arrayProductosCarrito);
 }
 
-function calculoTotalCarrito(){
+function calculoTotalCarrito(arrayProductos){
+    console.log(arrayProductos)
 let total= 0
 let totalCantidad = 0;
-//Este array va cogiendo la info de todos los productos que se van añadiendo.
-const arrayProductosCarrito = document.querySelectorAll('.productoDelCarrito');
+
 //Iteramos el array para hacer el calculo del total
-arrayProductosCarrito.forEach(arrayProductosCarrito => {
-       //Necesitamos obtener solo el valor en tipo number y sin simbolos monetarios
-   const precioProducto = Number(arrayProductosCarrito.querySelector('.modal-cart-price').textContent.replace('€', ''));
+for(let i=0; i<arrayProductos.length; i++){
+    const precioProducto = arrayProductos[i].precio;
+    const cantidadProducto = Number(arrayProductos[i].cantidad);
 
-   //obtenemos en una variable la cantidad
-   const cantidadProducto = Number(arrayProductosCarrito.querySelector('.shoppingCartItemQuantity').value);
 //Operamos
-total =total +  (precioProducto * cantidadProducto);
+total =total +  (Number(precioProducto.replace('€',''))* cantidadProducto);
 totalCantidad += cantidadProducto;
+}
 
-});
 carritoCalculoTotal.innerText = total.toFixed(2);
 headerSpanCarritoCount.innerText = totalCantidad;
-//DUDAS COMO SE USA LOCALSTORAGE
-localStorage.setItem("carritoContent", headerSpanCarritoCount.innerText )
 
+// SE USA LOCALSTORAGE
+window.localStorage.setItem("carritoContent", JSON.stringify(arrayProductos) );
+window.localStorage.setItem("headerSpanCarritoNum", headerSpanCarritoCount.innerText);
 }
 function vaciarCarrito(){
     while(divZonaProductosEnElCarrito.firstChild){
         divZonaProductosEnElCarrito.removeChild(divZonaProductosEnElCarrito.firstChild);
     }
-    calculoTotalCarrito();
+    arrayProductosCarrito=[];
+    calculoTotalCarrito(arrayProductosCarrito);
 }
 
 function finalizarCompra(event){
@@ -195,11 +196,79 @@ event.preventDefault()    //Al finalizar la compra se borrará el contenido del 
 if(Number(carritoCalculoTotal.textContent) === 0 || carritoCalculoTotal.textContent === 0.00 ){
     smsFinalizarCompra.innerText= "El carrito está vacio."
 }else{
+    console.log("Se envia por post:")
+    console.log(arrayProductosCarrito)
+
     vaciarCarrito();
-    
     smsFinalizarCompra.innerText= "Su compra se ha enviado correctamente. Gracias"
 }
     
 }
 
+}
+//funcion montar la filaCarrito
+function montarFilaCarrito(objeto){
+    
+//Div del Modal
+const divFilaproductoCarrito = document.createElement('div');
+divFilaproductoCarrito.className= "row productoDelCarrito";
+const divImg = document.createElement('div');
+divImg.className= "col-6";
+const divPrecio = document.createElement('div');
+divPrecio.className= "col-2";
+const divInputBtn = document.createElement('div');
+divInputBtn.className= "col-4";
+
+const divModalImg= document.createElement('div');
+divModalImg.className = "modal-cart-item d-flex justify-content-center align-items-center border-bottom pb-2 pt-3 h-100";
+const divModalPrecio= document.createElement('div');
+divModalPrecio.className = "modal-cart-item d-flex justify-content-center align-items-center border-bottom pb-2 pt-3 h-100";
+const divModalInputBtn= document.createElement('div');
+divModalInputBtn.className = "modal-cart-quantity d-flex justify-content-between aling-items-center border-bottom pb-2 pt-3 h-100";
+
+//Imagen
+const imgProducto = document.createElement('img');
+imgProducto.src = objeto.imagen; //Le damos el valor del parámetro.
+imgProducto.style.width = "60px";
+imgProducto.style.height= "60px";
+imgProducto.className="modal-cart-img";
+
+//Titulo
+const tituloProducto = document.createElement('h6');
+tituloProducto.className="modal-cart-title shoppingCartItemTitle text-truncate ml-3 mb-0";
+tituloProducto.textContent = objeto.titulo; //Le damos el valor del parámetro.
+
+//Precio
+const pProducto = document.createElement('p');
+pProducto.className= "modal-cart-price shoppingCartItemPrice ml-3 mb-0";
+pProducto.textContent = objeto.precio; //Le damos el valor del parámetro.
+
+//input cantidad producto
+const inputModalProducto= document.createElement('input');
+inputModalProducto.className = "form-control shoppingCartItemQuantity";
+inputModalProducto.type = "number";
+inputModalProducto.value = objeto.cantidad;
+//boton eliminar producto
+const btnModalProducto = document.createElement('button');
+btnModalProducto.className = "btn btn-danger buttonDelete";
+btnModalProducto.type= "button";
+btnModalProducto.textContent= "X";
+
+//Montamos el modal:
+divModalImg.append(tituloProducto);
+divModalImg.prepend(imgProducto);
+divImg.insertAdjacentElement("afterbegin",divModalImg);
+
+divModalPrecio.appendChild(pProducto);
+divPrecio.insertAdjacentElement("afterbegin",divModalPrecio);
+
+divModalInputBtn.append(btnModalProducto);
+divModalInputBtn.prepend(inputModalProducto);
+divInputBtn.appendChild(divModalInputBtn);
+
+divFilaproductoCarrito.insertAdjacentElement("afterbegin", divImg);
+divFilaproductoCarrito.append(divPrecio);
+divFilaproductoCarrito.insertAdjacentElement("beforeend",divInputBtn);
+ 
+return divFilaproductoCarrito;
 }

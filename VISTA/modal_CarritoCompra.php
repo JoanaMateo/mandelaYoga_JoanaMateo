@@ -35,7 +35,7 @@
             </div><!--Fin cuerpo de modal-body -->
                         <!-- pie del diálogo -->
                         <div class="modal-footer">
-                            <form action="">
+                            <form action="POST">
                                 <button type="submit" class="btn btn-secondary btnCarritoEnviar">CONTINUAR</button>
                             </form>
                         </div>

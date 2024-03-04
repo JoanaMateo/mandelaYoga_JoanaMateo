@@ -53,10 +53,10 @@
                         <script>
                             
                             var contenido= document.getElementById("headerSpanCarritoCount");
-                                    if(localStorage.getItem('headerSpanCarritoCount') == undefined){
+                                    if(localStorage.getItem('headerSpanCarritoNum') == undefined){
                                       contenido.innerHTML=0
                                     }else{
-                                        contenido.innerHTML= localStorage.getItem("headerSpanCarritoCount");
+                                        contenido.innerHTML= localStorage.getItem("headerSpanCarritoNum");
                                     }
                         </script>
                     </span>
