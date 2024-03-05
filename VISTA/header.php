@@ -5,9 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="VISTA/scss/custom.css">
     <link rel="stylesheet" href="VISTA/styleLanding.css">
-    <link href="VISTA/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 
@@ -20,7 +19,7 @@
         <img src="VISTA/img/logoMandalayoga.png" class="d-inline-block align-top" width="120" height="90" alt="logoLetras">
     </a>
     <a class="nav-link d-grid d-flex me-2 p-4 ms-auto" href="index.php?nombPagina=login">
-        <button class="btn btn-lg align-items-center" style="background-color: #f26b8a;" type="button">Login</button>
+        <button class="btn btn-primary align-items-center" type="button">Login</button>
     </a>
 </div>
 <nav class="navbar navbar-expand-lg bg-secondary p-2">
@@ -49,7 +48,7 @@
         <a class="navbar-brand mx-2" href="#">
             <button type="button" class="btn d-inline-block align-text-top btnCarrito" data-bs-toggle="modal" data-bs-target="#divCarrito">
                 <img src="VISTA/imG/carrito-de-compras.png" alt="carrito" width="30" height="28" class="d-inline-block align-text-top">
-                    <span id="headerSpanCarritoCount" class="position-relative badge rounded-pill" style="background-color: #f26b8a;">
+                    <span id="headerSpanCarritoCount" class="position-relative badge text-bg-primary rounded-pill">
                         <script>
                             
                             var contenido= document.getElementById("headerSpanCarritoCount");

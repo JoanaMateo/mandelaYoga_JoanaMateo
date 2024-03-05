@@ -217,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if(totalConsul==0){
             const paginacion = crearPaginacion(0);
             divPaginaItem.appendChild(paginacion);
-            textoInf1.innerHTML =" No hay registros en tu busqueda";
+            textoInf1.innerHTML =" No Hay Registros En Tu Busqueda";
         }else{
             if(totalpages>=registro){
                 switch(page){
@@ -261,12 +261,10 @@ document.addEventListener('DOMContentLoaded', () => {
                                 const paginacion = crearPaginacion(i);
                                 divPaginaItem.appendChild(paginacion);
                             }
-                        break;
-                        
+                        break;                     
                    }
-            }
-            
-            textoInf1.innerHTML =" Total registros "+ totalConsul;
+            }       
+            textoInf1.innerHTML =" Total Registros "+ totalConsul;
         }
        
         //Elementos de la paginacion
@@ -289,7 +287,7 @@ document.addEventListener('DOMContentLoaded', () => {
         divMigasPan.append(crearMigasPan(categMigas));
 
         //Titulos con información
-        textoInf3.innerHTML= "Total paginas "+ totalpages;
+        textoInf3.innerHTML= "Total Paginas "+ totalpages;
     }
 
         //FUNCIONES QUE PINTAN FORMATO HTML PRODUCTOS Y PAGINACION
