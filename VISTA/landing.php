@@ -1,5 +1,5 @@
 <nav arial-label="breadcrumb">
-<ol class="breadcrumb">
+<ol class="breadcrumb m-2">
   <li class="breadcrumb-item"><a href="index.php?nombPagina=home"></a>Home</li>
   <li class="breadcrumb-item active"><a href="index.php?nombPagina=login"></a>Login</li>
   <li class="breadcrumb-item active"><a href="index.php?nombPagina=landing"></a>Registro</li>

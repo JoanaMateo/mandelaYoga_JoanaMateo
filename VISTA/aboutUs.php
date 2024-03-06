@@ -1,20 +1,16 @@
 <nav arial-label="breadcrumb">
-<ol class="breadcrumb ms-2">
+<ol class="breadcrumb m-2">
   <li class="breadcrumb-item"><a class="text-reset text-decoration-none" href="index.php?nombPagina=home">Home</a></li>
   <li class="breadcrumb-item active"><a class="text-reset text-decoration-none" href="index.php?nombPagina=aboutUs">Conocenos</a></li>
 </ol>
 </nav>
-
+<div class="mb-4"
+style="background-image: url('VISTA/img/imgYoga2.png');
+            height:60vh; background-size:cover">
+            <h1 class="text-start pt-5 ps-5">QUIENES SOMOS</h1>
+</div>
+      
 <div class="container-fluid">
-      <div class="row mb-2"><!--Titulo About_Us-->
-        <div class="d-flex col-4 align-items-center justify-content-end">
-          <h1>Quienes Somos</h1>
-        </div>
-        <div class="d-flex col-8 align-items-center justify-content-center">
-            <img src="VISTA/img/ayudaYoga2.png" class="img-fluid h-75" alt="">
-        </div>
-      </div>
-
       <div class="row mb-2"><!--Cuerpo-->
             <div class="col d-flex">  
               <p class="text-justify">
@@ -65,5 +61,5 @@
           </div>
         </div>
       </div><!--Fin Cuerpo-->
-</div>
+      </div>
     

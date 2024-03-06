@@ -1,20 +1,29 @@
 <nav arial-label="breadcrumb">
-    <ol class="breadcrumb ms-2">
+    <ol class="breadcrumb m-2">
     <li class="breadcrumb-item"><a class="text-reset text-decoration-none" href="index.php?nombPagina=home">Home</a></li>
     <li class="breadcrumb-item active"><a class="text-reset text-decoration-none" href="index.php?nombPagina=preguntasFrecuentes">Preguntas Frecuentes</a></li>
     </ol>
 </nav>
-<div class="row mb-2"><!--Titulo Preguntas Frecuentes-->
-        <div class="d-flex col-4 align-items-center justify-content-end">  
-            <h1>Preguntas Frecuentes</h1>
-        </div>
-        <div class="d-flex col-8 align-items-center justify-content-center">
-            <img src="VISTA/img/ayudaYoga2.png" class="img-fluid" alt="">
-        </div>
+<div class="mb-4"
+style="background-image: url('VISTA/img/imgYoga1.png');
+            height:60vh; background-size:cover">
+            <h1 class="text-start pt-5 ps-5">PREGUNTAS FRECUENTES</h1>
+</div>
+<!--
+<div class="row">
+    <div class="col">
+      <img src="VISTA/img/imgYoga1.png" class="img-fluid" alt="">
     </div>
-<div class="container-fluid">    
+  </div>
+
+<div class="row"> Titulo Preguntas Frecuentes
+  <div class="col">
+    <h1 class="text-center">PREGUNTAS FRECUENTES</h1>
+  </div>
+</div>-->
+  <div class="container-fluid">
     <div class="row mb-2">
-        <div class="col-9">     
+        <div class="col-md-9">     
             <div class="row">
                 <div class="col">
                     <p class="text-center fs-5">Hemos seleccionado las preguntas más frecuentes para hacer tu compra en MandalaYoga.com lo más fácil posible. Si aquí no encuentras la información que buscas, <a href="index.php?nombPagina=contacto">ponte en contacto con nosotros</a>.</p>
@@ -126,7 +135,7 @@
             </div>
         </div><!--Fin columna Preguntas Frecuentes-->
 
-        <div class="col-3"><!--Columnas Publicidad-->
+        <div class="col-md-3"><!--Columnas Publicidad-->
             <div>
                 <div class="card mb-2">
                         <div class="card-header">
@@ -145,4 +154,4 @@
             </div>
         </div>
     </div>
-</div>
+    </div>

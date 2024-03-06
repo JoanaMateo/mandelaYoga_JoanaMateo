@@ -1,4 +1,5 @@
-<footer class="container-fluid">
+
+<footer>
     <!-- Section: Social media -->
     <section class="d-flex justify-content-center p-4 border-bottom border-top">
         <!-- Left -->
