@@ -4,23 +4,11 @@
     <li class="breadcrumb-item active"><a class="text-reset text-decoration-none" href="index.php?nombPagina=preguntasFrecuentes">Preguntas Frecuentes</a></li>
     </ol>
 </nav>
-<div class="mb-4"
-style="background-image: url('VISTA/img/imgYoga1.png');
-            height:60vh; background-size:cover">
-            <h1 class="text-start pt-5 ps-5">PREGUNTAS FRECUENTES</h1>
-</div>
-<!--
-<div class="row">
-    <div class="col">
-      <img src="VISTA/img/imgYoga1.png" class="img-fluid" alt="">
-    </div>
-  </div>
 
-<div class="row"> Titulo Preguntas Frecuentes
-  <div class="col">
-    <h1 class="text-center">PREGUNTAS FRECUENTES</h1>
-  </div>
-</div>-->
+<section class="mb-4" style="background-image: url('VISTA/img/imgYoga1.png'); height: 30vh; background-size:cover; background-position: center">
+  <h1 class="text-start pt-5 ps-5">PREGUNTAS FRECUENTES</h1>
+</section>
+
   <div class="container-fluid">
     <div class="row mb-2">
         <div class="col-md-9">     

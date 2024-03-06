@@ -24,12 +24,9 @@
         </form>
     </div>
 </nav>
-
-<div
-style="background-image: url('VISTA/img/yogaypilates.png');
-            height:60vh; background-size:cover">
-            <h1 class="text-light text-end pt-5 pe-5">GALERÍA DE PRODUCTOS</h1>
-</div>
+<section style="background-image: url('VISTA/img/yogaypilates.png'); height: 30vh; background-size:cover; background-position: right 50% bottom 75%">
+  <h1 class="text-light text-end pt-5 pe-5">GALERÍA DE PRODUCTOS</h1>
+</section>
 
 <h3 id="textoInf1" class="d-flex justify-content-center m-4"></h3>
     <!--Zona donde estarán los items de la galeria-->

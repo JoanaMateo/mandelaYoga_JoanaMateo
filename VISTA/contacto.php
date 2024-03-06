@@ -34,6 +34,7 @@
                     <select name="motivo" id="cars">
                         <option disabled selected value> --- Selecciona una opción ---</option>
                             <option value="talleres">Informacion sobre próximos talleres</option>
+                            <option value="talleres">Solicitar MI RUTINA YOGA PERSONALIZADA</option>
                             <option value="envio">Dudas sobre envíos</option>
                             <option value="pedido">Dudas sobre tu pedido</option>
                             <option value="problemas">Problemas con un pedido</option>

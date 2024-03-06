@@ -4,12 +4,10 @@
   <li class="breadcrumb-item active"><a class="text-reset text-decoration-none" href="index.php?nombPagina=aboutUs">Conocenos</a></li>
 </ol>
 </nav>
-<div class="mb-4"
-style="background-image: url('VISTA/img/imgYoga2.png');
-            height:60vh; background-size:cover">
-            <h1 class="text-start pt-5 ps-5">QUIENES SOMOS</h1>
-</div>
-      
+<section class="mb-4" style="background-image: url('VISTA/img/imgYoga2.png'); height: 30vh; background-size:cover; background-position: right 50% bottom 35%;">
+  <h1 class="text-start pt-5 ps-5">QUIENES SOMOS</h1>
+</section>
+
 <div class="container-fluid">
       <div class="row mb-2"><!--Cuerpo-->
             <div class="col d-flex">  
