@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         
         if(pageEvento==0){
-            textoInf1.innerHTML =" No hay registros en tu busqueda";
+            textoInf1.innerHTML =" No Hay Registros En Tu Búsqueda";
         }else{
             textoInf1.innerHTML ="";
             textoInf2.innerHTML= "";
